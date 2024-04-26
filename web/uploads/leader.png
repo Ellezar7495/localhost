@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)file:///C:/Users/Profi-Web/Desktop/project/leader.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./leader_files/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+               <img src="./leader_files/logo.png" alt="" class="logo">
+               <nav class="nav_header">
+                <ul class="lists_header">
+                    <li class="list_header"><a href="file:///C:/Users/Profi-Web/Desktop/project/leader.html#" class="link_header">Личный кабинет</a></li>
+                    <li class="list_header"><a href="file:///C:/Users/Profi-Web/Desktop/project/leader.html#" class="link_header">О нас</a></li>
+                    <li class="list_header"><a href="file:///C:/Users/Profi-Web/Desktop/project/leader.html#" class="link_header">Отзовы</a></li>
+                    <li class="list_header"><a href="file:///C:/Users/Profi-Web/Desktop/project/leader.html#" class="link_header">О системе</a></li>
+                    <li class="list_header"><a href="file:///C:/Users/Profi-Web/Desktop/project/leader.html#" class="link_header">Контакты</a></li>
+                </ul>
+               </nav> 
+            </div>
+        </div>
+    </header>
+    <main class="main_leader">
+        <div class="container">
+            <h1 class="h1_main_leader">Выберите время встречи</h1>
+            <form action="file:///C:/Users/Profi-Web/Desktop/project/leader.html" class="create-meet_form size-form">
+                <div class="setting_leader">
+                    <label for="" class="time_seting_leader">Начало Встречи</label>
+                    <input type="time" class="input_setting_leader" value="09:00:00">
+                </div>
+                <div class="setting_leader">
+                    <label for="" class="time_seting_leader">Конец Встречи</label>
+                    <input type="time" class="input_setting_leader" value="18:00:00">
+                </div>
+            </form>
+            <section class="users">
+                <div class="users_block">
+                    <div class="users_card">
+                        <p class="name_users">Андрей</p>
+                        <p class="select-time_users">9:00 - 18:00</p>
+                        <p class="select-date_users">13.03.2024</p>
+                        <p class="ready_user">Готов</p>
+                        <button type="button" class="btn btn_leader delete">
+                            Удалить
+                        </button>
+                    </div>
+                    <div class="users_card">
+                        <p class="name_users">Андрей</p>
+                        <p class="select-time_users">9:00 - 18:00</p>
+                        <p class="select-date_users">13.03.2024</p>
+                        <p class="ready_user">Готов</p>
+                        <button type="button" class="btn btn_leader delete">
+                            Удалить
+                        </button>
+                    </div>
+                    <div class="users_card">
+                        <p class="name_users">Иван</p>
+                        <p class="select-time_users">9:00 - 18:00</p>
+                        <p class="select-date_users">13.03.2024</p>
+                        <p class="unready_user">Не готов</p>
+                        <button type="button" class="btn btn_leader delete">
+                            Удалить
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <div class="invite-users">
+                <input type="text" class="invite-input" placeholder="ivanov@">
+                <p> <button type="button" class="btn btn_leader">
+                    Отправить приглашение
+                </button></p>
+               
+            </div>
+            <div class="buttons_leader-1 btn "><button type="button" class="btn btn_leader">
+                Заблокировать встечу
+            </button>
+            <button class="delete_meet btn">Закончить встречу</button></div>
+            
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer_inner">
+                <div class="information_footer">
+                    <p class="item_information">
+                        "MeetPlan" - это инновационная компания, специализирующаяся на планировании и организации встреч 
+                        и мероприятий любого масштаба. Мы предлагаем уникальные решения для эффективного проведения встреч, 
+                        конференций, семинаров и других событий, помогая нашим клиентам достичь своих целей и задач.
+                    </p>
+                    <div class="item_information-contact">
+                        <h1 class="h1_information-contact">Контакты:</h1>
+                        <p class="contact">Адрес: ул. Примерная, дом 123, офис 456, г. Примерный</p>
+                        <p class="contact">Телефон: +7 (123) 456-78-90</p>
+                        <p class="contact">Email: info@meetplan.com</p>
+                    </div>
+                </div>
+                <nav class="nav_footer">
+                    <ul class="ul_footer">
+                        <li class="footer_list"><a href="file:///C:/Users/Profi-Web/Desktop/project/media/pdf/%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B4%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8.pdf" class="link_footer" download="Политика конфиденциальности">Политика конфиденциальности</a></li>
+                        <li class="footer_list"><a href="file:///C:/Users/Profi-Web/Desktop/project/media/pdf/%D0%9F%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%BE%D0%B5%20%D1%81%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5.pdf" class="link_footer" download="Пользовательское соглашение">Пользовательское соглашение</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+</body></html>
