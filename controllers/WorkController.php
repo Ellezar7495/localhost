@@ -3,10 +3,13 @@
 namespace app\controllers;
 
 use app\models\Category;
+use app\models\Search;
 use app\models\Work;
 use app\models\WorkCategory;
 use app\models\WorkSearch;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -60,8 +63,15 @@ class WorkController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $queryByAuthor = Work::find()->where(['user_id' => $model->user_id])->orderBy(new Expression('rand()'))->limit(6);
+        $dataProviderAuthor = new ActiveDataProvider([
+            'query' => $queryByAuthor
+        ]);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'dataProviderAuthor' => $dataProviderAuthor
+
         ]);
     }
 

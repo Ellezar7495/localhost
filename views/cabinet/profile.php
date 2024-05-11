@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
 /** @var app\models\WorkSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 ?>
-<div class="work-index">
+<div class="profile-index">
 
 
 
@@ -25,22 +25,10 @@ use yii\widgets\Pjax;
         ]
     ])
         ?>
-    <?php Pjax::begin(['id' => 'listview-objects', 'timeout' => false]); ?>
-    <div class="cabinet-menu">
-        <?= $this->render('_search', ['model' => $searchModel]); ?>
-        <?= Html::a('Создать пост', ['work/create'], ['class' => 'btn button-main-active']) ?>
+
+    <div class="profile-form">
+        <?= $this->render('_form_profile', [
+            'model' => $model,
+        ]) ?>
+
     </div>
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'work-item'],
-        'summary' => '',
-        'itemView' => function ($model, $key, $index, $widget) {
-        return
-            Html::a(Html::img('../web/uploads/' . $model->img_url, ['class' => 'work-item-img']), ['work/view', 'id' => $model->id]);
-
-    },
-    ]) ?>
-
-    <?php Pjax::end(); ?>
-
-</div>

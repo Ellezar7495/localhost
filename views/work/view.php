@@ -2,18 +2,17 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ListView;
 
 /** @var yii\web\View $this */
 /** @var app\models\Work $model */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Works', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="work-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -25,6 +24,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <div class="work-attributes">
+        <?= Html::img('../web/uploads/' . Html::encode($model->img_url), ['class' => 'work-img']) ?>
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
+    <div class="work-advice">
+        <div class="work-author-blocks">
+            <?= ListView::widget([
+                'dataProvider' => $dataProviderAuthor,
+                'itemOptions' => ['class' => 'work-item'],
+                'summary' => '',
+                'itemView' => function ($model, $key, $index, $widget) {
+                        return
+                            Html::a(Html::img('../web/uploads/' . $model->img_url, ['class' => 'work-item-img']), ['work/view', 'id' => $model->id]);
+                    },
+            ]) ?>
+        </div>
+        <div class="work-category-blocks">
+
+        </div>
+    </div>
 
     <?= DetailView::widget([
         'model' => $model,

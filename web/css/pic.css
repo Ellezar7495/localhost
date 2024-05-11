@@ -20,6 +20,13 @@ header {
     height: auto;
 }
 
+.avatar {
+    max-width: 32px;
+    max-height: 32px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
 .header-top {
     padding-top: 32px;
     padding-bottom: 12px;
@@ -116,6 +123,10 @@ header {
 .button-submain a {
     padding: 0 !important;
     color: #FFF8F4 !important;
+}
+
+.text-main {
+    color: #FFF8F4;
 }
 
 .vr {
@@ -244,7 +255,12 @@ header {
     flex-direction: row;
     gap: 15px;
 }
-
+.work-attributes {
+    overflow: hidden;
+}
+.work-img {
+    max-width: 100%;
+}
 
 
 .work-index>.nav-link.active {
@@ -337,12 +353,14 @@ input[type='checkbox']:checked+.checkbox-label {
     color: #37BFB4;
     padding: 6px 9px;
 }
+
 .checkbox-btn-img {
     display: inline-block;
     margin: 0;
     user-select: none;
     position: relative;
 }
+
 .checkbox-btn-img input[type=checkbox] {
     z-index: -1;
     opacity: 0;
@@ -350,6 +368,7 @@ input[type='checkbox']:checked+.checkbox-label {
     width: 0;
     height: 0;
 }
+
 .checkbox-btn-img span {
     display: inline-block;
     cursor: pointer;
@@ -358,17 +377,20 @@ input[type='checkbox']:checked+.checkbox-label {
     color: #FFF8F4;
     transition: background 0.2s ease;
 }
+
 .checkbox-btn-img input[type=checkbox]:checked+span {
     border: 1px solid #37BFB4;
     color: #37BFB4;
     padding: 6px 9px;
 }
+
 .radio-btn {
     display: inline-block;
     margin: 0;
     user-select: none;
     position: relative;
 }
+
 .radio-btn input[type=radio] {
     z-index: -1;
     opacity: 0;
@@ -376,6 +398,7 @@ input[type='checkbox']:checked+.checkbox-label {
     width: 0;
     height: 0;
 }
+
 .radio-btn span {
     display: inline-block;
     cursor: pointer;
@@ -384,6 +407,7 @@ input[type='checkbox']:checked+.checkbox-label {
     color: #FFF8F4;
     transition: background 0.2s ease;
 }
+
 .radio-btn input[type=radio]:checked+span {
     border: 1px solid #37BFB4;
     color: #37BFB4;

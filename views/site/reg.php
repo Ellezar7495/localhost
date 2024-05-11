@@ -15,17 +15,16 @@ use yii\bootstrap5\ActiveForm;
 
         <div class="window"></div>
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', 'class' => 'reg-form']]); ?>
-        <?= Html::tag('span', 'Регистрация', ['class' => 'header-label']) ?>
+        <?= Html::tag('span', 'Регистрация', ['class' => 'header-label-black']) ?>
         <?= $form->field($model, 'login', ['options' => ['class' => 'form-input']])->textInput(['placeholder' => 'Логин'])->label('') ?>
         <div class="form-reg">
             <?= $form->field($model, 'birthdate', ['options' => ['class' => 'form-input',]])->widget(\yii\widgets\MaskedInput::class, [
                 'mask' => '99.99.9999',
             ])->label('') ?>
             <?= $form->field($model, 'sex', ['options' => ['class' => 'form-input',]])->dropDownList([
-                1 => 'Мужской',
-                2 => 'Женский',
-                3 => 'Неопределён',
-                4 => 'Переоценён'
+                'Мужской' => 'Мужской',
+                'Женский' => 'Женский',
+                'Неопределён' => 'Неопределён',
             ], )->label('') ?>
         </div>
 
@@ -37,8 +36,6 @@ use yii\bootstrap5\ActiveForm;
 
 
         <div class="form-group">
-            <?= Html::a('Вход','login', ['class' => 'btn button-main-black']) ?>
-            <li class="vr" style="background-color: #353531;"></li>
             <?= Html::submitButton('Зарегестрироваться', ['class' => 'btn button-main-active']) ?>
         </div>
         <?php ActiveForm::end(); ?>

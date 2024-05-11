@@ -25,9 +25,8 @@ $this->title = 'Login';
 
 
         <div class="form-group">
-            <?= Html::submitButton('Вход', ['class' => 'btn button-main-active']) ?>
-            <li class="vr" style="background-color: #353531;"></li>
-            <?= Html::a('Зарегестрироваться','reg', ['class' => 'btn button-main-black']) ?>
+            <?= Html::submitButton('Войти', ['class' => 'btn button-main-active']) ?>
+
         </div>
 
         <?php ActiveForm::end(); ?>

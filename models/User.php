@@ -30,6 +30,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     public $password_repeat;
     public $imageFile;
+    const SCENARIO_CREATE_PROFILE_IMAGE = 'create_profile_image';
     /**
      * {@inheritdoc}
      */
@@ -51,7 +52,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
             [['password_repeat'], 'compare', 'compareAttribute' => 'password'],
             [['birthdate'], 'match', 'pattern' => "/^\d{2}.\d{2}.\d{4}$/"],
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => self::SCENARIO_CREATE_PROFILE_IMAGE],
         ];
     }
 

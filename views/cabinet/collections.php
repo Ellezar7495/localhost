@@ -16,11 +16,12 @@ use yii\widgets\Pjax;
 
 
 
-    <?= Nav::widget([
+<?= Nav::widget([
         'options' => ['class' => 'cabinet-links navbar-nav flex-row align-items-center ms-auto'],
         'items' => [
             ['label' => 'Мои работы', 'url' => ['/cabinet/index'], 'options' => ['class' => 'link-item']],
             ['label' => 'Коллекции', 'url' => ['/cabinet/collections'], 'options' => ['class' => 'link-item']],
+            ['label' => 'Профиль', 'url' => ['/cabinet/profile'], 'options' => ['class' => 'link-item']],
         ]
     ])
         ?>
