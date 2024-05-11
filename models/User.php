@@ -174,6 +174,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return User::find()->select('login')->distinct()->from('user')->leftJoin('work', 'work.user_id=user.id')->leftJoin('work_collection', 'work.id = work_collection.work_id')->leftJoin('collection', 'collection.id=work_collection.collection_id')->where(['collection.user_id' => Yii::$app->user->id])->asArray()->indexBy('user.id')->column();
     }
+    public static function getImg($id)
+    {
+        return self::find()->select('img_url')->where(['id' => $id]);
+    }
 }
 // $this->imageFile->saveAs('@web/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
 //             $this->img_url = $this->imageFile->baseName . '.' . $this->imageFile->extension;

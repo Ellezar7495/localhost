@@ -107,9 +107,8 @@ class WorkController extends Controller
     {
         $model = $this->findModel($id);
         $model->categories_array = WorkCategory::find()->select('category_id')->where(['work_id' => $model->id])->column();
-        var_dump($model->categories_array);
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

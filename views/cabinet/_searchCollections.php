@@ -48,7 +48,7 @@ $this->registerJs('
         [
             'class' => 'form-list',
             'itemOptions' => [
-                'class' => 'checkbox-btn',
+                'class' => '',
             ],
             'item' =>
                 function ($index, $label, $name, $checked, $value) use ($model) {
@@ -58,23 +58,24 @@ $this->registerJs('
                         $res = ($value == $model->searchCollection) ? 'checked' : '';
                     }
                     return
-                        '<label class="checkbox-btn">' .
+                        '<label class="radio-btn">' .
                         "<input type='radio' name={$name} value={$value} " .
                         ($res) . '>' .
                         Html::tag('span', $label) .
+                        
                         '</>';
                 }
         ],
     )->label('') ?>
-    <?= Html::a('+', ['/collection/create'], ['class' => 'button-submain nav-item text-decoration-none'])?>
-    
+    <?= Html::a('+', ['/collection/create'], ['class' => 'button-submain nav-item text-decoration-none']) ?>
 
-<?= $form->field($model, 'searchAuthor', ['options' => ['class' => 'form-input']])->checkboxList(
+
+    <?= $form->field($model, 'searchAuthor', ['options' => ['class' => 'form-input']])->checkboxList(
         User::getAuthors(),
         [
             'class' => 'form-list',
             'itemOptions' => [
-                'class' => 'checkbox-btn',
+                'class' => '',
             ],
             'item' =>
                 function ($index, $label, $name, $checked, $value) use ($model) {
@@ -84,10 +85,11 @@ $this->registerJs('
                         $res = in_array($value, $model->searchAuthor) ? 'checked' : '';
                     }
                     return
-                        '<label class="checkbox-btn">' .
+                        '<label class="checkbox-btn-img">' .
                         "<input type='checkbox' name={$name} value={$value} " .
                         ($res) . '>' .
-                        Html::tag('span', $label) . 
+                        Html::tag('span', $label) .
+                        Html::img('/web/uploads/' . User::getImg($value), ['class' => '']) .
                         '</>';
                 }
         ],
