@@ -12,9 +12,9 @@ $this->title = $model->title;
 ?>
 <div class="work-view">
 
-
-
-    <p>
+    <div class="work-attributes">
+        <?= Html::img('../web/uploads/' . Html::encode($model->img_url), ['class' => 'work-img']) ?>
+        <h1><?= Html::encode($this->title) ?></h1>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -23,16 +23,12 @@ $this->title = $model->title;
                 'method' => 'post',
             ],
         ]) ?>
-    </p>
-    <div class="work-attributes">
-        <?= Html::img('../web/uploads/' . Html::encode($model->img_url), ['class' => 'work-img']) ?>
-        <h1><?= Html::encode($this->title) ?></h1>
     </div>
     <div class="work-advice">
         <div class="work-author-blocks">
             <?= ListView::widget([
                 'dataProvider' => $dataProviderAuthor,
-                'itemOptions' => ['class' => 'work-item'],
+                'itemOptions' => ['class' => 'work-item-author'],
                 'summary' => '',
                 'itemView' => function ($model, $key, $index, $widget) {
                         return
@@ -44,17 +40,5 @@ $this->title = $model->title;
 
         </div>
     </div>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'content',
-            'user_id',
-            'created_at',
-            'img_url:url',
-        ],
-    ]) ?>
 
 </div>

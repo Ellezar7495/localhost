@@ -19,7 +19,7 @@ use yii\bootstrap5\ActiveForm;
     <?= Html::tag('span', 'E-mail: ' . Html::encode($model->email), ['class' => 'text-main'])?>
     <?= Html::tag('span', 'Пол: ' . Html::encode($model->sex), ['class' => 'text-main'])?>
     <?= $form->field($model, 'login', ['options' => ['class' => 'form-input']])->textInput(['placeholder' => 'Логин'])->label('') ?>
-    <?= $form->field($model, 'imageFile', ['options' => ['class' => 'form-input',]])->fileInput()->label('') ?>
+    <?= $form->field($model, 'imageFile', ['options' => ['class' => 'form-input']])->fileInput(['accept' => 'image/*', 'id' => 'imgInp'])->label('') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить изменения', ['class' => 'btn button-main-active']) ?>
@@ -42,6 +42,9 @@ use yii\bootstrap5\ActiveForm;
             const [file] = imgInp.files
             if (file) {
                 blah.classList.remove('invisible')
+                blah.src = URL.createObjectURL(file)
+            } else {
+                blah.src = '#'
                 blah.src = URL.createObjectURL(file)
             }
         }

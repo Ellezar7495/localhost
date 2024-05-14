@@ -39,9 +39,11 @@ class CabinetController extends \yii\web\Controller
         if ($model->load($this->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $model->scenario = User::SCENARIO_CREATE_PROFILE_IMAGE;
-            $model->imageFile->saveAs('@app/web/uploads/' . $model->imageFile->baseName . '.' . $model->imageFile->extension);
-            $model->img_url = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            $model->save(false);
+            if ($model->imageFile != null) {
+                $model->imageFile->saveAs('@app/web/uploads/' . $model->imageFile->baseName . '.' . $model->imageFile->extension);
+                $model->img_url = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                $model->save(false);
+            }
             return $this->refresh();
 
         }
