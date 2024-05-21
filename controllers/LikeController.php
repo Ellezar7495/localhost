@@ -1,17 +1,19 @@
 <?php
 
 namespace app\controllers;
+
+use app\models\Like;
 use Yii;
-use app\models\Collection;
-use app\models\Search;
+use yii\BaseYii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CollectionController implements the CRUD actions for Collection model.
+ * LikeController implements the CRUD actions for Like model.
  */
-class CollectionController extends Controller
+class LikeController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,23 +34,33 @@ class CollectionController extends Controller
     }
 
     /**
-     * Lists all Collection models.
+     * Lists all Like models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new Search();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Like::find(),
+            /*
+            'pagination' => [
+                'pageSize' => 50
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
+            */
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Collection model.
+     * Displays a single Like model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,31 +73,26 @@ class CollectionController extends Controller
     }
 
     /**
-     * Creates a new Collection model.
+     * Creates a new Like model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($work_id, $url)
     {
-        $model = new Collection();
+        $model = new Like();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->user_id = Yii::$app->user->id;
-                $model->save();
-                return $this->redirect(['/cabinet/collections']);
-            }
-        } else {
-            $model->loadDefaultValues();
+            $model->work_id = $work_id;
+            $model->user_id = Yii::$app->user->id;
+            $model->save();
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        // var_dump($url);
+        // die;
+        return $this->redirect($url);
     }
 
     /**
-     * Updates an existing Collection model.
+     * Updates an existing Like model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -105,28 +112,29 @@ class CollectionController extends Controller
     }
 
     /**
-     * Deletes an existing Collection model.
+     * Deletes an existing Like model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($work_id, $url)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['/cabinet/collections']);
+        Like::findOne(['user_id' => Yii::$app->user->id, 'work_id' => $work_id])->delete();
+
+        return $this->redirect([$url]);
     }
 
     /**
-     * Finds the Collection model based on its primary key value.
+     * Finds the Like model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Collection the loaded model
+     * @return Like the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Collection::findOne(['id' => $id])) !== null) {
+        if (($model = Like::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

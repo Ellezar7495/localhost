@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Category;
+use app\models\Comment;
 use app\models\Search;
 use app\models\Work;
 use app\models\WorkCategory;
@@ -64,13 +65,18 @@ class WorkController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        $queryByWork = Comment::find()->where(['work_id' => $model->id])->indexBy('id');
         $queryByAuthor = Work::find()->where(['user_id' => $model->user_id])->orderBy(new Expression('rand()'))->limit(6);
         $dataProviderAuthor = new ActiveDataProvider([
             'query' => $queryByAuthor
         ]);
+        $dataProviderComments = new ActiveDataProvider([
+            'query' => $queryByWork
+        ]);
         return $this->render('view', [
             'model' => $model,
-            'dataProviderAuthor' => $dataProviderAuthor
+            'dataProviderAuthor' => $dataProviderAuthor,
+            'dataProviderComments' => $dataProviderComments,
 
         ]);
     }
@@ -117,7 +123,16 @@ class WorkController extends Controller
     {
         $model = $this->findModel($id);
         $model->categories_array = WorkCategory::find()->select('category_id')->where(['work_id' => $model->id])->column();
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $model->scenario = Work::SCENARIO_UPDATE;
+            $model->save();
+            WorkCategory::deleteAll(['work_id' => $model->id]);
+            foreach ($model->categories_array as $key => $category) {
+                $modelCategory = new WorkCategory();
+                $modelCategory->category_id = Category::findOne(['title' => $category])->id;
+                $modelCategory->work_id = $model->id;
+                $modelCategory->save();
+            }
 
             return $this->redirect(['view', 'id' => $model->id]);
         }

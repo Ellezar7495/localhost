@@ -14,23 +14,11 @@ use yii\widgets\Pjax;
 /** @var app\models\WorkSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 ?>
-<div class="work-index">
-
-
-
-    <?= Nav::widget([
-        'options' => ['class' => 'cabinet-links navbar-nav flex-row align-items-center ms-auto'],
-        'items' => [
-            ['label' => 'Мои работы', 'url' => ['/cabinet/index'], 'options' => ['class' => 'link-item']],
-            ['label' => 'Коллекции', 'url' => ['/cabinet/collections'], 'options' => ['class' => 'link-item']],
-            ['label' => 'Профиль', 'url' => ['/cabinet/profile'], 'options' => ['class' => 'link-item']],
-        ]
-    ])
-        ?>
+<div class="author-index">
+    <div class="header-label"><?= Html::encode($name)?></div>
     <?php Pjax::begin(['id' => 'listview-objects', 'timeout' => false]); ?>
     <div class="cabinet-menu">
         <?= $this->render('_search', ['model' => $searchModel]); ?>
-        <?= Html::a('Создать пост', ['work/create'], ['class' => 'btn button-main-active']) ?>
     </div>
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
@@ -40,9 +28,7 @@ use yii\widgets\Pjax;
         return
             Html::a(Html::img('../web/uploads/' . $model->img_url, ['class' => 'work-item-img']), ['work/view', 'id' => $model->id]) .
             '<div class="work-objects d-flex flex-row justify-content-between align-items-center">' .
-            '<div class="d-flex flex-row" style="gap:15px">' .
-            Html::a(Html::img('../web/uploads/' . User::findOne(['id' => $model->user_id])->img_url, ['class' => 'work-avatar']), ['/cabinet/author', 'id' => $model->user_id], ['data' => ['method' => 'post']])
-            . '<div class="work-label d-flex align-items-center">' . $model->title . '</div>' . '</div>' .
+            '<div class="d-flex flex-row" style="gap:15px">' . Html::img('../web/uploads/' . User::findOne(['id' => $model->user_id])->img_url, ['class' => 'work-avatar']) . '<div class="work-label d-flex align-items-center">' . $model->title . '</div>' . '</div>' .
             ((!Like::find()->where(['user_id' => Yii::$app->user->id, 'work_id' => $model->id])->exists()) ?
                 Html::a(
                     Html::img('../web/uploads/like.svg'),

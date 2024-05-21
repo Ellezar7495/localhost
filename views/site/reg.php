@@ -18,7 +18,7 @@ use yii\bootstrap5\ActiveForm;
         <?= Html::tag('span', 'Регистрация', ['class' => 'header-label-black']) ?>
         <?= $form->field($model, 'login', ['options' => ['class' => 'form-input']])->textInput(['placeholder' => 'Логин'])->label('') ?>
         <div class="form-reg">
-            <?= $form->field($model, 'birthdate', ['options' => ['class' => 'form-input',]])->widget(\yii\widgets\MaskedInput::class, [
+            <?= $form->field($model, 'birthdate', ['options' => ['class' => 'form-input',]])->textarea([ 'type' => 'date', 'dateFormat' => 'dd.mm.yyyy'])->widget(\yii\widgets\MaskedInput::class, [
                 'mask' => '99.99.9999',
             ])->label('') ?>
             <?= $form->field($model, 'sex', ['options' => ['class' => 'form-input',]])->dropDownList([

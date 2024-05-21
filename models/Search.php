@@ -43,16 +43,21 @@ class Search extends Model
      * @return ActiveDataProvider
      */
 
-    public function search($params, $type)
+    public function search($params, $type, ?string $id = null)
     {
+
+        $collection = Work::find()->select('work.*')->leftJoin('work_collection', 'work_collection.work_id=work.id');
+
+
+        $author = Work::find()->where(['user_id' => $id]);
         $work = Work::find()->select('work.*')->leftJoin('work_category', 'work_category.work_id=work.id');
         $work_user = Work::find()->where(['user_id' => Yii::$app->user->id]);
         $user = User::find();
         // SELECT DISTINCT `login` FROM `user` LEFT JOIN `work` ON work.user_id=user.id LEFT JOIN `work_collection` ON work.id = work_collection.work_id WHERE work_collection.collection_id = 7;
-        
-    
+
+
         // Collection::find()->select();
-        $collection = Work::find()->select('work.*')->leftJoin('work_collection', 'work_collection.work_id=work.id');
+
         $category = Category::find();
         $this->load($params);
         // add conditions that should always apply here
@@ -66,9 +71,11 @@ class Search extends Model
             ]);
         }
         if ($type == 'UserWork') {
-            $work_user->andFilterWhere([
-                'title' => $this->search
-            ])->orFilterWhere(['like', 'title', $this->search]);
+            $work_user->andFilterWhere([ 
+                'like',
+                'title',
+                $this->search
+            ]);
 
             $dataProvider = new ActiveDataProvider([
                 'query' => $work_user,
@@ -106,12 +113,24 @@ class Search extends Model
                 'query' => $category,
             ]);
         }
-
+        if ($type == 'Author') {
+            $author->andFilterWhere([
+                'like',
+                'title',
+                $this->search
+            ]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $author,
+            ]);
+        }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
+            //$query->where('0=1');
+            if ($params != null) {
+                return $dataProvider;
+            }
         }
+        
 
         // grid filtering conditions
 

@@ -37,7 +37,7 @@ header {
     color: #FFF8F4;
     font-family: 'Inter';
     font-size: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
 }
 
 .header-label-black {
@@ -124,6 +124,14 @@ header {
 .button-submain a {
     padding: 0 !important;
     color: #FFF8F4 !important;
+}
+
+.button-text {
+    margin: 0 !important;
+    padding: 0 0px 0 5px;
+    border: none !important;
+    background: none !important;
+    color: #FFF8F4
 }
 
 .text-main {
@@ -264,20 +272,28 @@ header {
 .work-attributes {
     overflow: hidden;
     max-width: 60%;
+    width: 100%;
+}
+
+.attributes {
+    margin-top: 20px;
 }
 
 .work-img {
     max-width: 100%;
+    width: 100%;
 }
 
 .work-view {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     gap: 15px;
 }
 
 .work-advice {
     max-width: 40%;
+    gap: 15px;
 }
 
 
@@ -285,6 +301,39 @@ header {
     border: 1px solid #37BFB4;
     color: #37BFB4;
     padding: 6px 9px;
+}
+
+.work-item:hover>.work-objects {
+    opacity: 1;
+
+}
+
+.work-avatar {
+    max-width: 45px;
+    width: 100%;
+    max-height: 45px;
+    height: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.work-label {
+    font-family: 'Akrobat';
+    font-size: 24px;
+    color: #FFF8F4;
+}
+
+.work-objects {
+    position: absolute;
+    opacity: 0;
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(53, 53, 49, 1) 0%, rgba(9, 9, 121, 0) 100%);
+    max-width: 100%;
+    width: 100%;
+    max-height: 25%;
+    height: 100%;
+    padding: 10px;
+    transition: all .3s ease-out;
 }
 
 .invalid-feedback {
@@ -467,7 +516,7 @@ input[type='checkbox']:checked+.checkbox-label {
 }
 
 .work-item-author {
-    
+
     width: 32%;
     overflow: hidden;
 }
@@ -482,7 +531,6 @@ input[type='checkbox']:checked+.checkbox-label {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 20px;
     justify-content: space-between;
 }
 

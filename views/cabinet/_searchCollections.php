@@ -3,8 +3,9 @@
 use app\models\Collection;
 use app\models\User;
 use app\models\Work;
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\Modal;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\ActiveForm;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -59,16 +60,42 @@ $this->registerJs('
                     }
                     return
                         '<label class="radio-btn">' .
+
                         "<input type='radio' name={$name} value={$value} " .
                         ($res) . '>' .
-                        Html::tag('span', $label) .
-                        
-                        '</>';
+
+                        (Html::tag(
+                            'span',
+                            $label .
+
+                            Html::a(
+                                'x',
+                                ['/collection/delete', 'id' => $value],
+                                ['class' => 'button-text text-decoration-none', 'data' => ['method' => 'post'], 'style' => '']
+                            )
+                            ,
+                            ['class' => 'd-flex flex-row']
+                        )
+                        ) .
+                        '</label>';
                 }
         ],
     )->label('') ?>
     <?= Html::a('+', ['/collection/create'], ['class' => 'button-submain nav-item text-decoration-none']) ?>
-
+    <?php
+    // Modal::begin([
+    //     'title' => '1',
+    //     'toggleButton' => [
+    //         'label' => 'click me',
+    //         'tag' => 'button',
+    //         'class' => 'btn btn-success',
+    //     ],
+    // ]);
+    
+    // echo 'Say hello...';
+    
+    // Modal::end();
+    ?>
 
     <?= $form->field($model, 'searchAuthor', ['options' => ['class' => 'form-input']])->checkboxList(
         User::getAuthors(),

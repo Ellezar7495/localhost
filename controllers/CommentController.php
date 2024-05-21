@@ -1,17 +1,17 @@
 <?php
 
 namespace app\controllers;
-use Yii;
-use app\models\Collection;
-use app\models\Search;
+
+use app\models\Comment;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CollectionController implements the CRUD actions for Collection model.
+ * CommentController implements the CRUD actions for Comment model.
  */
-class CollectionController extends Controller
+class CommentController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,23 +32,33 @@ class CollectionController extends Controller
     }
 
     /**
-     * Lists all Collection models.
+     * Lists all Comment models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new Search();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Comment::find(),
+            /*
+            'pagination' => [
+                'pageSize' => 50
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
+            */
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Collection model.
+     * Displays a single Comment model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,19 +71,17 @@ class CollectionController extends Controller
     }
 
     /**
-     * Creates a new Collection model.
+     * Creates a new Comment model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Collection();
+        $model = new Comment();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->user_id = Yii::$app->user->id;
-                $model->save();
-                return $this->redirect(['/cabinet/collections']);
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -85,7 +93,7 @@ class CollectionController extends Controller
     }
 
     /**
-     * Updates an existing Collection model.
+     * Updates an existing Comment model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -105,7 +113,7 @@ class CollectionController extends Controller
     }
 
     /**
-     * Deletes an existing Collection model.
+     * Deletes an existing Comment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -114,19 +122,20 @@ class CollectionController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        return $this->redirect(['/cabinet/collections']);
+
+        return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Collection model based on its primary key value.
+     * Finds the Comment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Collection the loaded model
+     * @return Comment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Collection::findOne(['id' => $id])) !== null) {
+        if (($model = Comment::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

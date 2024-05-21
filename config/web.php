@@ -4,9 +4,10 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'basic',
+    'id' => 'PicBox',
     'language' => 'ru-RU',
     'basePath' => dirname(__DIR__),
+    'name' => 'PicBox',
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

@@ -5,23 +5,23 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "like".
+ * This is the model class for table "subscribe".
  *
  * @property int $id
  * @property int $user_id
- * @property int $work_id
+ * @property int $author_id
  *
+ * @property User $author
  * @property User $user
- * @property Work $work
  */
-class Like extends \yii\db\ActiveRecord
+class Subscribe extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'like';
+        return 'subscribe';
     }
 
     /**
@@ -30,10 +30,10 @@ class Like extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'work_id'], 'required'],
-            [['user_id', 'work_id'], 'integer'],
+            [['user_id', 'author_id'], 'required'],
+            [['user_id', 'author_id'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-            [['work_id'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => ['work_id' => 'id']],
+            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author_id' => 'id']],
         ];
     }
 
@@ -45,8 +45,18 @@ class Like extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'work_id' => 'Work ID',
+            'author_id' => 'Author ID',
         ];
+    }
+
+    /**
+     * Gets query for [[Author]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthor()
+    {
+        return $this->hasOne(User::class, ['id' => 'author_id']);
     }
 
     /**
@@ -57,15 +67,5 @@ class Like extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
-    }
-
-    /**
-     * Gets query for [[Work]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getWork()
-    {
-        return $this->hasOne(Work::class, ['id' => 'work_id']);
     }
 }

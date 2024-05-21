@@ -11,7 +11,6 @@ use Yii;
  * @property int $user_id
  * @property string $title
  *
- * @property LikeCollection[] $likeCollections
  * @property User $user
  * @property WorkCollection[] $workCollections
  */

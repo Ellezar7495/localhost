@@ -12,7 +12,7 @@ use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 
 use function PHPUnit\Framework\isNull;
-
+$this->title = 'PicBox';
 $this->registerCssFile('css/pic.css', ['depends' => [BootstrapAsset::class]]);
 AppAsset::register($this);
 $this->registerCsrfMetaTags();
@@ -20,7 +20,7 @@ $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no']);
 $this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
-$this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
+$this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.png')]);
 
 ?>
 <?php $this->beginPage() ?>
@@ -58,7 +58,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 Html::img('@web/uploads/' . !isNull(Yii::$app->user->identity->img_url) ? '../web/uploads/' . Yii::$app->user->identity->img_url : '', ['class' => 'avatar']) .
                 Html::beginForm(['/site/logout'])
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->login . ')',
+                    'Выход (' . Yii::$app->user->identity->login . ')',
                     ['class' => 'button-submain']
                 )
                 . Html::endForm()

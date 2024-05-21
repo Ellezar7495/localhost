@@ -27,6 +27,7 @@ class Work extends \yii\db\ActiveRecord
 {
     public $imageFile;
     public $categories_array;
+    const SCENARIO_UPDATE = 'scenarioUpdate';
     /**
      * {@inheritdoc}
      */
@@ -46,8 +47,7 @@ class Work extends \yii\db\ActiveRecord
             [['categories_array'], 'required'],
             [['created_at'], 'safe'],
             [['title', 'content', 'img_url'], 'string', 'max' => 255],
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'mimeTypes'=> 'image/*' ],
-        ];
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'mimeTypes'=> 'image/*', 'on' => self::SCENARIO_UPDATE,]];
     }
 
     /**

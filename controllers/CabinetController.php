@@ -24,6 +24,9 @@ class CabinetController extends \yii\web\Controller
     }
     public function actionCollections()
     {
+        if($this->request->queryParams == null){
+            
+        }
         $searchModelWork = new Search();
         $dataProvider = $searchModelWork->search($this->request->queryParams, 'Collection');
 
@@ -65,6 +68,19 @@ class CabinetController extends \yii\web\Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    public function actionAuthor($id)
+    {
+        $name = $this->findUser($id)->login;
+        $searchModelWork = new Search();
+        $dataProvider = $searchModelWork->search($this->request->queryParams, 'Author', $id);
+
+        return $this->render('author', [
+            'searchModel' => $searchModelWork,
+            'dataProvider' => $dataProvider,
+            'name' => $name,
+        ]);
+
     }
     protected function findUser($id)
     {

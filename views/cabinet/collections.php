@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Like;
+use app\models\User;
 use app\models\Work;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
@@ -16,7 +18,7 @@ use yii\widgets\Pjax;
 
 
 
-<?= Nav::widget([
+    <?= Nav::widget([
         'options' => ['class' => 'cabinet-links navbar-nav flex-row align-items-center ms-auto'],
         'items' => [
             ['label' => 'Мои работы', 'url' => ['/cabinet/index'], 'options' => ['class' => 'link-item']],
@@ -28,7 +30,7 @@ use yii\widgets\Pjax;
     <?php Pjax::begin(['id' => 'listview-objects', 'timeout' => false]); ?>
     <div class="cabinet-menu">
         <?= $this->render('_searchCollections', ['model' => $searchModel, 'dataProvider' => $dataProvider]); ?>
-        
+
     </div>
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
@@ -36,7 +38,24 @@ use yii\widgets\Pjax;
         'summary' => '',
         'itemView' => function ($model, $key, $index, $widget) {
         return
-            Html::a(Html::img('../web/uploads/' . $model->img_url, ['class' => 'work-item-img']), ['work/view', 'id' => $model->id]);
+            Html::a(Html::img('../web/uploads/' . $model->img_url, ['class' => 'work-item-img']), ['work/view', 'id' => $model->id]) .
+            '<div class="work-objects d-flex flex-row justify-content-between align-items-center">' .
+            '<div class="d-flex flex-row" style="gap:15px">' . Html::img('../web/uploads/' . User::findOne(['id' => $model->user_id])->img_url, ['class' => 'work-avatar']) . '<div class="work-label d-flex align-items-center">' . $model->title . '</div>' . '</div>' .
+            ((!Like::find()->where(['user_id' => Yii::$app->user->id, 'work_id' => $model->id])->exists()) ?
+                Html::a(
+                    Html::img('../web/uploads/like.svg'),
+                    ['/like/create', 'work_id' => $model->id, 'url' => Url::current()],
+                    ['class' => 'like button-text text-decoration-none', 'data' => ['method' => 'post'], 'style' => '']
+                )
+                :
+                Html::a(
+                    Html::img('../web/uploads/like-active.svg'),
+                    ['/like/delete', 'work_id' => $model->id, 'url' => Url::current()],
+                    ['class' => 'like button-text text-decoration-none', 'data' => ['method' => 'post'], 'style' => '']
+                )
+            ) .
+            '</div>'
+        ;
 
     },
     ]) ?>
