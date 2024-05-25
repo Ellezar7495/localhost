@@ -16,6 +16,7 @@ use Yii;
  */
 class WorkCollection extends \yii\db\ActiveRecord
 {
+    public $collections_array;
     /**
      * {@inheritdoc}
      */
@@ -32,6 +33,7 @@ class WorkCollection extends \yii\db\ActiveRecord
         return [
             [['collection_id', 'work_id'], 'required'],
             [['collection_id', 'work_id'], 'integer'],
+            [['collections_array'], 'required'],
             [['collection_id'], 'exist', 'skipOnError' => true, 'targetClass' => Collection::class, 'targetAttribute' => ['collection_id' => 'id']],
             [['work_id'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => ['work_id' => 'id']],
         ];

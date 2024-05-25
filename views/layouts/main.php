@@ -58,7 +58,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 Html::img('@web/uploads/' . !isNull(Yii::$app->user->identity->img_url) ? '../web/uploads/' . Yii::$app->user->identity->img_url : '', ['class' => 'avatar']) .
                 Html::beginForm(['/site/logout'])
                 . Html::submitButton(
-                    'Выход (' . Yii::$app->user->identity->login . ')',
+                    'Выход',
                     ['class' => 'button-submain']
                 )
                 . Html::endForm()

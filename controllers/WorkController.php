@@ -4,9 +4,11 @@ namespace app\controllers;
 
 use app\models\Category;
 use app\models\Comment;
+use app\models\Like;
 use app\models\Search;
 use app\models\Work;
 use app\models\WorkCategory;
+use app\models\WorkCollection;
 use app\models\WorkSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -34,8 +36,13 @@ class WorkController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
+                        'error' => [
+                            'class' => 'yii\web\ErrorAction',
+                        ],
                     ],
                 ],
+                
+
             ]
         );
     }
@@ -65,18 +72,100 @@ class WorkController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $queryByWork = Comment::find()->where(['work_id' => $model->id])->indexBy('id');
-        $queryByAuthor = Work::find()->where(['user_id' => $model->user_id])->orderBy(new Expression('rand()'))->limit(6);
+
+        if ($this->request->isPost) {
+            if (Yii::$app->request->post('type') == 'create') {
+                $modelLike = new Like();
+                $modelLike->user_id = Yii::$app->user->id;
+                $modelLike->work_id = Yii::$app->request->post('work_id');
+                $modelLike->save();
+            } elseif (Yii::$app->request->post('type') == 'delete') {
+                if (Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])) {
+                    Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])->delete();
+                }
+            }
+        }
+        $modelCollection = new WorkCollection();
+        $modelComment = new Comment();
+        if ($this->request->isPost) {
+
+            if ($this->request->post('WorkCollection')) {
+                $modelCollection->load($this->request->post());
+
+                // VarDumper::dump($modelCollection->collections_array, 100, true);
+                //     die;
+                if ($modelCollection->collections_array) {
+                    // VarDumper::dump(!WorkCollection::find()->where(['collection_id' => $modelCollection->collections_array, 'work_id' => $id])->exists(), 100, true);
+                    // die;
+                    if (!WorkCollection::find()->where(['collection_id' => $modelCollection->collections_array, 'work_id' => $id])->exists()) {
+
+                        $modelCollection->collection_id = $modelCollection->collections_array;
+                        $modelCollection->work_id = $id;
+                        $modelCollection->save(false);
+                    }
+
+                }
+            }
+        }
+        if ($this->request->isPost) {
+            if ($this->request->post('content') != null) {
+
+                if ($modelComment) {
+                    
+                    $modelComment->content = Yii::$app->request->post('content');
+                    $modelComment->user_id = Yii::$app->user->id;
+                    $modelComment->work_id = $id;
+                    $modelComment->save(false);
+                }
+            }
+        }
+
+
+        $dataProviderCategories = new ActiveDataProvider([
+            'query' => Category::find()->select('category.*')->innerJoin('work_category', 'work_category.category_id=category.id AND work_category.work_id=' . $id)
+        ]);
+        $dataProviderCategories = new ActiveDataProvider([
+            'query' => Category::find()->select('category.*')->innerJoin('work_category', 'work_category.category_id=category.id AND work_category.work_id=' . $id)
+        ]);
+        // SELECT *
+        // FROM category
+        // LEFT JOIN `work_category` 
+        // ON work_category.category_id=category.id 
+        // LEFT JOIN `work` 
+        // ON work.id=work_category.work_id
+        // WHERE work.user_id=2
+        // VarDumper::dump(Category::find()->select('id')->where(['work_id' => $id]), 100, true);
+        // die;
+        $dataProviderLike = new ActiveDataProvider([
+            'query' => Work::find()
+                ->select('work.*')
+                ->innerJoin('work_category', 'work_category.work_id=work.id')->limit(6)
+                ->andFilterWhere([
+                    'category_id' => WorkCategory::find()
+                        ->select('category_id')
+                        ->where(['work_id' => $id])
+                        ->groupBy('work.id')
+                ])
+        ]);
+        // var_dump($dataProviderLike);
+        // die;
+        $dataProviderComments = new ActiveDataProvider([
+            'query' => Comment::find()->where(['work_id' => $id])
+        ]);
         $dataProviderAuthor = new ActiveDataProvider([
-            'query' => $queryByAuthor
+            'query' => Work::find()->where(['user_id' => $model->user_id])->orderBy(new Expression('rand()'))->limit(6)
         ]);
         $dataProviderComments = new ActiveDataProvider([
-            'query' => $queryByWork
+            'query' => Comment::find()->where(['work_id' => $model->id])->indexBy('id')
         ]);
         return $this->render('view', [
             'model' => $model,
             'dataProviderAuthor' => $dataProviderAuthor,
             'dataProviderComments' => $dataProviderComments,
+            'dataProviderCategories' => $dataProviderCategories,
+            'dataProviderLike' => $dataProviderLike,
+            'modelComment' => $modelComment,
+            'modelCollection' => $modelCollection,
 
         ]);
     }
@@ -153,7 +242,7 @@ class WorkController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['cabinet/index']);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Symfony\Component\VarDumper\VarDumper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -15,6 +16,8 @@ class Search extends Model
     public $searchCategory;
     public $searchCollection;
     public $searchAuthor;
+    
+
     /**
      * {@inheritdoc}
      */
@@ -47,17 +50,25 @@ class Search extends Model
     {
 
         $collection = Work::find()->select('work.*')->leftJoin('work_collection', 'work_collection.work_id=work.id');
-
+        $query = new Query();
 
         $author = Work::find()->where(['user_id' => $id]);
         $work = Work::find()->select('work.*')->leftJoin('work_category', 'work_category.work_id=work.id');
         $work_user = Work::find()->where(['user_id' => Yii::$app->user->id]);
         $user = User::find();
+        $userLiked = Work::find()->select('work.*')->innerJoin('like', 'like.work_id=work.id AND like.user_id=' . Yii::$app->user->id);
+        // SELECT * FROM `work`
+        // LEFT JOIN `like`
+        // ON like.work_id=work.id and like.user_id=3
+
         // SELECT DISTINCT `login` FROM `user` LEFT JOIN `work` ON work.user_id=user.id LEFT JOIN `work_collection` ON work.id = work_collection.work_id WHERE work_collection.collection_id = 7;
 
 
         // Collection::find()->select();
-
+        if($this->searchCategory){
+            VarDumper::dump($this->searchCategory, 10, true);
+        }
+        
         $category = Category::find();
         $this->load($params);
         // add conditions that should always apply here
@@ -71,7 +82,7 @@ class Search extends Model
             ]);
         }
         if ($type == 'UserWork') {
-            $work_user->andFilterWhere([ 
+            $work_user->andFilterWhere([
                 'like',
                 'title',
                 $this->search
@@ -123,6 +134,16 @@ class Search extends Model
                 'query' => $author,
             ]);
         }
+        if ($type == 'UserLiked') {
+            $userLiked->andFilterWhere([
+                'like',
+                'title',
+                $this->search
+            ]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $userLiked,
+            ]);
+        }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             //$query->where('0=1');
@@ -130,7 +151,7 @@ class Search extends Model
                 return $dataProvider;
             }
         }
-        
+
 
         // grid filtering conditions
 
@@ -148,4 +169,7 @@ class Search extends Model
     //                 ->where(['Collection.title, Category.title, Work.title' => $params])
     //                  ->orWhere(['User.login' => $params])
     // }
+
+
+
 }

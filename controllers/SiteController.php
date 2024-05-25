@@ -2,8 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\Like;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -66,8 +69,24 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if ($this->request->isPost) {
+            
+            if (Yii::$app->request->post('type') == 'create') {
+                $model = new Like();
+                $model->user_id = Yii::$app->user->id;
+                $model->work_id = Yii::$app->request->post('work_id');
+                $model->save();
+            } elseif (Yii::$app->request->post('type') == 'delete') {
+                if (Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])) {
+                    Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])->delete();
+                }
+            }
+        }
         $searchModel = new Search();
+        // VarDumper::dump($this->request->isAjax, 10, true);
+
         $dataProviderWork = $searchModel->search($this->request->queryParams, 'Work');
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -123,9 +142,9 @@ class SiteController extends Controller
     public function actionReg()
     {
         $model = new \app\models\User();
-        
+
         if (Yii::$app->request->isPost) {
-            
+
             if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
                 Yii::$app->user->login($model);
                 return $this->goHome();

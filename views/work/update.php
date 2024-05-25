@@ -5,14 +5,11 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Work $model */
 
-$this->title = 'Update Work: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Works', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Обновление работы: ' . $model->title;
 ?>
 <div class="work-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="header-label"><?= Html::encode($this->title) ?></div>
 
     <?= $this->render('_form', [
         'model' => $model,

@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Like;
+use app\models\User;
 use app\models\Work;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
@@ -12,7 +14,7 @@ use yii\widgets\Pjax;
 /** @var app\models\WorkSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 ?>
-<div class="profile-index">
+<div class="work-liked">
 
 
 
@@ -27,9 +29,11 @@ use yii\widgets\Pjax;
     ])
         ?>
 
-    <div class="profile-form">
-        <?= $this->render('_form_profile', [
-            'model' => $model,
-        ]) ?>
+    <?= ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemOptions' => ['class' => 'work-item'],
+        'summary' => '',
+        'itemView' => '_item'
+    ]) ?>
 
-    </div>
+</div>

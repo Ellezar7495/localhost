@@ -1,6 +1,5 @@
 <?php
 
-use app\models\Category;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
@@ -33,36 +32,13 @@ $this->registerJs('
         'method' => 'get',
         'id' => 'form-object-search',
         'options' => [
-            'data-pjax' => 1
+            'data-pjax' => true
         ],
     ]); ?>
-    <?= $form->field($model, 'searchCategory', ['options' => ['class' => 'form-input']])->checkboxList(
-        Category::getCategories(),
-        [
-            'class' => 'form-list',
-            'itemOptions' => [
-                'class' => '',
-            ],
-            'item' =>
-                function ($index, $label, $name, $checked, $value) use ($model) {
-                    if ($model->searchCategory == null) {
-                        $res = '';
-                    } else {
-                        $res = in_array($index, $model->searchCategory) ? 'checked' : '';
-                    }
-                    return
-                        '<label class="checkbox-btn">' .
-                        "<input type='checkbox' name={$name} value={$index} " .
-                        ($res) . '>' .
-                        Html::tag('span', $value) .
-                        '</label>';
-                }
-        ],
-    )->label('') ?>
 
     <?= $form->field($model, 'search', ['options' => ['class' => 'form-input']])->textInput(['placeholder' => 'Поиск', 'autofocus' => true, 'onfocus' => "this.setSelectionRange(this.value.length,this.value.length);"])->label('') ?>
 
-    <?php // echo $form->field($model, 'img_url')   ?>
+    <?php // echo $form->field($model, 'img_url') ?>
 
     <?php ActiveForm::end(); ?>
 

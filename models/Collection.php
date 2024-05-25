@@ -16,6 +16,7 @@ use Yii;
  */
 class Collection extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */

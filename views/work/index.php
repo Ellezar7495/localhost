@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Work', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php Pjax::begin(['id' => 'listview-objects', 'timeout' => false]); ?>
+    <?php Pjax::begin(['id' => 'index-listview', 'timeout' => false]); ?>
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([

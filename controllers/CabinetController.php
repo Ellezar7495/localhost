@@ -2,10 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\Like;
 use app\models\Search;
+use app\models\Subscribe;
 use app\models\User;
 use app\models\Work;
 use app\models\WorkSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use Yii;
 use yii\web\UploadedFile;
@@ -14,6 +17,19 @@ class CabinetController extends \yii\web\Controller
 {
     public function actionIndex()
     {
+        if ($this->request->isPost) {
+
+            if (Yii::$app->request->post('type') == 'create') {
+                $model = new Like();
+                $model->user_id = Yii::$app->user->id;
+                $model->work_id = Yii::$app->request->post('work_id');
+                $model->save();
+            } elseif (Yii::$app->request->post('type') == 'delete') {
+                if (Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])) {
+                    Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])->delete();
+                }
+            }
+        }
         $searchModelWork = new Search();
         $dataProvider = $searchModelWork->search($this->request->queryParams, 'UserWork');
 
@@ -24,8 +40,18 @@ class CabinetController extends \yii\web\Controller
     }
     public function actionCollections()
     {
-        if($this->request->queryParams == null){
-            
+        if ($this->request->isPost) {
+
+            if (Yii::$app->request->post('type') == 'create') {
+                $model = new Like();
+                $model->user_id = Yii::$app->user->id;
+                $model->work_id = Yii::$app->request->post('work_id');
+                $model->save();
+            } elseif (Yii::$app->request->post('type') == 'delete') {
+                if (Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])) {
+                    Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])->delete();
+                }
+            }
         }
         $searchModelWork = new Search();
         $dataProvider = $searchModelWork->search($this->request->queryParams, 'Collection');
@@ -71,16 +97,69 @@ class CabinetController extends \yii\web\Controller
     }
     public function actionAuthor($id)
     {
-        $name = $this->findUser($id)->login;
-        $searchModelWork = new Search();
-        $dataProvider = $searchModelWork->search($this->request->queryParams, 'Author', $id);
-
-        return $this->render('author', [
-            'searchModel' => $searchModelWork,
-            'dataProvider' => $dataProvider,
-            'name' => $name,
+        $model = $this->findUser($id);
+        if ($this->request->isPost) {
+            if (Yii::$app->request->post('type') == 'create') {
+                $modelLike = new Like();
+                $modelLike->user_id = Yii::$app->user->id;
+                $modelLike->work_id = Yii::$app->request->post('work_id');
+                $modelLike->save();
+            } elseif (Yii::$app->request->post('type') == 'delete') {
+                if (Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])) {
+                    Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])->delete();
+                }
+            }
+        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => Work::find()->where(['user_id' => $id])
         ]);
 
+        return $this->render('author', [
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            
+        ]);
+
+    }
+    public function actionSubscribe($id, $url)
+    {
+        $model = new Subscribe();
+        $model->user_id = Yii::$app->user->id;
+        $model->author_id = $id;
+        $model->save(false);
+
+        return $this->redirect($url);
+
+    }
+    public function actionLiked()
+    {
+        if ($this->request->isPost) {
+
+            if (Yii::$app->request->post('type') == 'create') {
+                $model = new Like();
+                $model->user_id = Yii::$app->user->id;
+                $model->work_id = Yii::$app->request->post('work_id');
+                $model->save();
+            } elseif (Yii::$app->request->post('type') == 'delete') {
+                if (Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])) {
+                    Like::findOne(['work_id' => Yii::$app->request->post('work_id'), 'user_id' => Yii::$app->user->id])->delete();
+                }
+            }
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Work::find()->select('work.*')->innerJoin('like', 'like.work_id=work.id AND like.user_id=' . Yii::$app->user->id)
+        ]);
+
+        return $this->render('liked', [
+
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionDeleteSubscribe($id, $url)
+    {
+        Subscribe::findOne(['author_id' => $id, 'user_id' => Yii::$app->user->id])->delete();
+        return $this->redirect($url);
     }
     protected function findUser($id)
     {

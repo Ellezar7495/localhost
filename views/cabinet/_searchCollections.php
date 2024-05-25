@@ -71,7 +71,13 @@ $this->registerJs('
                             Html::a(
                                 'x',
                                 ['/collection/delete', 'id' => $value],
-                                ['class' => 'button-text text-decoration-none', 'data' => ['method' => 'post'], 'style' => '']
+                                [
+                                    'class' => 'button-text text-decoration-none',
+                                    'data' => [
+                                        'method' => 'post'
+                                    ],
+                                    'style' => ''
+                                ]
                             )
                             ,
                             ['class' => 'd-flex flex-row']
@@ -97,30 +103,7 @@ $this->registerJs('
     // Modal::end();
     ?>
 
-    <?= $form->field($model, 'searchAuthor', ['options' => ['class' => 'form-input']])->checkboxList(
-        User::getAuthors(),
-        [
-            'class' => 'form-list',
-            'itemOptions' => [
-                'class' => '',
-            ],
-            'item' =>
-                function ($index, $label, $name, $checked, $value) use ($model) {
-                    if ($model->searchAuthor == null) {
-                        $res = '';
-                    } else {
-                        $res = in_array($value, $model->searchAuthor) ? 'checked' : '';
-                    }
-                    return
-                        '<label class="checkbox-btn-img">' .
-                        "<input type='checkbox' name={$name} value={$value} " .
-                        ($res) . '>' .
-                        Html::tag('span', $label) .
-                        Html::img('/web/uploads/' . User::getImg($value), ['class' => '']) .
-                        '</>';
-                }
-        ],
-    )->label(''); ?>
+    
     <?php ActiveForm::end(); ?>
 
 </div>

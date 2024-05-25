@@ -4,6 +4,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Collection;
 use app\models\Search;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,7 +25,7 @@ class CollectionController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['GET'],
                     ],
                 ],
             ]
@@ -113,7 +114,10 @@ class CollectionController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        if($model){
+            $model->delete();
+        }
         return $this->redirect(['/cabinet/collections']);
     }
 

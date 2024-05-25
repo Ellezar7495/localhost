@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/pic.css',
     ];
     public $js = [
+        'js/main.js'
     ];
     public $depends = [
         'yii\bootstrap5\BootstrapAsset',
