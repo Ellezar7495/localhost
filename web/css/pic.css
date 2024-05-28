@@ -19,6 +19,7 @@ body {
 header {
     height: auto;
 }
+
 main {
     margin-bottom: 200px;
 }
@@ -264,6 +265,14 @@ main {
     border-radius: 5px;
     width: 100%;
     max-width: 50%;
+}
+
+.form-control.is-invalid {
+    padding-right: 0.75rem !important;
+}
+
+.form-control.is-valid {
+    padding-right: 0.75rem !important;
 }
 
 .work-search {
@@ -541,10 +550,12 @@ input[type='checkbox']:checked+.checkbox-label {
     overflow: hidden;
     border-radius: 3px;
 }
+
 .work-item-comment {
     width: 100%;
     max-width: 100%;
 }
+
 .comment-card {
     padding: 15px;
     border: 1px solid #FFF8F4;
@@ -567,7 +578,7 @@ input[type='checkbox']:checked+.checkbox-label {
 .cabinet-links {
     gap: 0px;
     padding-bottom: 12px;
-    
+
 }
 
 .link-item a {

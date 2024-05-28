@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Like;
 use Yii;
+use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
@@ -70,7 +71,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if ($this->request->isPost) {
-            
+
             if (Yii::$app->request->post('type') == 'create') {
                 $model = new Like();
                 $model->user_id = Yii::$app->user->id;
@@ -142,12 +143,14 @@ class SiteController extends Controller
     public function actionReg()
     {
         $model = new \app\models\User();
-
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if (Yii::$app->request->isPost) {
-
             if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
                 Yii::$app->user->login($model);
-                return $this->goHome();
+                $this->goHome();
             }
         }
 

@@ -14,11 +14,11 @@ use yii\bootstrap5\ActiveForm;
 <div class="work-form">
 
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', 'class' => 'form-create']]); ?>
+    <?php $form = ActiveForm::begin(['id' => 'reg-update-form', 'options' => ['enctype' => 'multipart/form-data', 'class' => 'form-create']]); ?>
     <?= Html::tag('span', 'Мои данные', ['class' => 'header-label']) ?>
     <?= Html::tag('span', 'E-mail: ' . Html::encode($model->email), ['class' => 'text-main'])?>
     <?= Html::tag('span', 'Пол: ' . Html::encode($model->sex), ['class' => 'text-main'])?>
-    <?= $form->field($model, 'login', ['options' => ['class' => 'form-input']])->textInput(['placeholder' => 'Логин'])->label('') ?>
+    <?= $form->field($model, 'login', ['options' => ['class' => 'form-input'],'enableAjaxValidation' => true])->textInput(['placeholder' => 'Логин'])->label('') ?>
     <?= $form->field($model, 'imageFile', ['options' => ['class' => 'form-input']])->fileInput(['accept' => 'image/*', 'id' => 'imgInp'])->label('') ?>
 
     <div class="form-group">

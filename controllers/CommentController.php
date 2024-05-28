@@ -36,6 +36,11 @@ class CommentController extends Controller
      *
      * @return string
      */
+    public function actions() {
+        if(Yii::$app->user->isGuest) {
+            $this->goHome();
+        }
+    }
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([

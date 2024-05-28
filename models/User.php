@@ -42,16 +42,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
+
     public function rules()
     {
         return [
             [['login', 'password', 'password_repeat', 'birthdate', 'email', 'sex'], 'required'],
-            [['birthdate'], 'safe'],
+
             [['role_id', 'is_blocked'], 'integer'],
             [['login', 'password', 'email', 'sex', 'authKey'], 'string', 'max' => 255],
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
+            [['email'], 'email'],
+            [['login'], 'unique'],
+            [['email'], 'unique'],
             [['password_repeat'], 'compare', 'compareAttribute' => 'password'],
-            [['birthdate'], 'match', 'pattern' => "/^\d{2}.\d{2}.\d{4}$/"],
+            [['birthdate'], 'date', 'format' => 'd.m.Y'],
+            [['birthdate'], 'compare', 'compareValue' => date('Y-m-d'), 'operator' => '<', 'type' => 'date'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => self::SCENARIO_CREATE_PROFILE_IMAGE],
         ];
     }
@@ -162,12 +167,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             return false;
         }
 
-        if($insert){
+        if ($insert) {
             $this->authKey = Yii::$app->security->generateRandomString(10);
             $this->role_id = Role::findOne(['title' => 'user'])->id;
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
             $this->is_blocked = 0;
-            
+
         }
         return true;
     }

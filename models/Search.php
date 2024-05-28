@@ -48,8 +48,12 @@ class Search extends Model
 
     public function search($params, $type, ?string $id = null)
     {
-
-        $collection = Work::find()->select('work.*')->leftJoin('work_collection', 'work_collection.work_id=work.id');
+        if($params == null) {
+            $collection = Work::find()->where(['title' => '']);
+        } else {
+            $collection = Work::find()->select('work.*')->leftJoin('work_collection', 'work_collection.work_id=work.id');
+        }
+        
         $query = new Query();
 
         $author = Work::find()->where(['user_id' => $id]);
@@ -57,6 +61,7 @@ class Search extends Model
         $work_user = Work::find()->where(['user_id' => Yii::$app->user->id]);
         $user = User::find();
         $userLiked = Work::find()->select('work.*')->innerJoin('like', 'like.work_id=work.id AND like.user_id=' . Yii::$app->user->id);
+        $category = Category::find();
         // SELECT * FROM `work`
         // LEFT JOIN `like`
         // ON like.work_id=work.id and like.user_id=3
@@ -65,11 +70,11 @@ class Search extends Model
 
 
         // Collection::find()->select();
-        if($this->searchCategory){
-            VarDumper::dump($this->searchCategory, 10, true);
-        }
+        // if($this->searchCategory){
+        //     VarDumper::dump($this->searchCategory, 10, true);
+        // }
         
-        $category = Category::find();
+        
         $this->load($params);
         // add conditions that should always apply here
         if ($type == 'User') {
@@ -116,8 +121,8 @@ class Search extends Model
             ]);
         }
         if ($type == 'Category') {
-            $category->andFilterWhere([
-                'title' => $this->search
+            $category->andFilterWhere(['like',
+                'title', $this->search
             ]);
 
             $dataProvider = new ActiveDataProvider([

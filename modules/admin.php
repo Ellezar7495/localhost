@@ -3,7 +3,7 @@
 namespace app\modules;
 
 /**
- * Admin module definition class
+ * admin module definition class
  */
 class admin extends \yii\base\Module
 {

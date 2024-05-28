@@ -31,4 +31,9 @@ class HelloController extends Controller
 
         return ExitCode::OK;
     }
+    public function actions() {
+        if(Yii::$app->user->isGuest) {
+            $this->goHome();
+        }
+    }
 }

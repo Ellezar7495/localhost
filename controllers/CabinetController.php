@@ -8,13 +8,22 @@ use app\models\Subscribe;
 use app\models\User;
 use app\models\Work;
 use app\models\WorkSearch;
+use yii\bootstrap5\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use Yii;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class CabinetController extends \yii\web\Controller
+
 {
+    public function actions()
+    {
+        if(Yii::$app->user->isGuest) {
+            $this->goHome();
+        }
+    }
     public function actionIndex()
     {
         if ($this->request->isPost) {
@@ -64,7 +73,10 @@ class CabinetController extends \yii\web\Controller
     public function actionProfile()
     {
         $model = $this->findUser(Yii::$app->user->identity->id);
-
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if ($model->load($this->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $model->scenario = User::SCENARIO_CREATE_PROFILE_IMAGE;

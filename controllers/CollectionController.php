@@ -37,6 +37,13 @@ class CollectionController extends Controller
      *
      * @return string
      */
+    public function actions() 
+    {
+        if(Yii::$app->user->isGuest) {
+            Yii::$app->session->setFLash('danger', 'Вы не авторизованы');
+            $this->goHome();
+        }
+    }
     public function actionIndex()
     {
         $searchModel = new Search();
