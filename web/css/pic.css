@@ -333,6 +333,18 @@ main {
     border-radius: 5px;
     overflow: hidden;
 }
+.sub-avatar {
+    width: 55px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    color: #37BFB4;
+    padding: 9px;
+    border-radius: 12px !important;
+}
+.sub-avatar-border {
+    border: 1px solid #37BFB4;
+    border-radius: 5px;
+}
 
 .work-label {
     font-family: 'Akrobat';

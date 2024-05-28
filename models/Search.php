@@ -16,7 +16,7 @@ class Search extends Model
     public $searchCategory;
     public $searchCollection;
     public $searchAuthor;
-    
+
 
     /**
      * {@inheritdoc}
@@ -48,12 +48,10 @@ class Search extends Model
 
     public function search($params, $type, ?string $id = null)
     {
-        if($params == null) {
-            $collection = Work::find()->where(['title' => '']);
-        } else {
-            $collection = Work::find()->select('work.*')->leftJoin('work_collection', 'work_collection.work_id=work.id');
-        }
-        
+
+        $collection = Work::find()->select('work.*')->innerJoin('work_collection', 'work_collection.work_id=work.id');
+
+
         $query = new Query();
 
         $author = Work::find()->where(['user_id' => $id]);
@@ -73,8 +71,8 @@ class Search extends Model
         // if($this->searchCategory){
         //     VarDumper::dump($this->searchCategory, 10, true);
         // }
-        
-        
+
+
         $this->load($params);
         // add conditions that should always apply here
         if ($type == 'User') {
@@ -121,8 +119,10 @@ class Search extends Model
             ]);
         }
         if ($type == 'Category') {
-            $category->andFilterWhere(['like',
-                'title', $this->search
+            $category->andFilterWhere([
+                'like',
+                'title',
+                $this->search
             ]);
 
             $dataProvider = new ActiveDataProvider([

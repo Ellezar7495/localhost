@@ -55,6 +55,7 @@ $this->registerJs('
                 function ($index, $label, $name, $checked, $value) use ($model) {
                     if ($model->searchCollection == null) {
                         $res = '';
+                        
                     } else {
                         $res = ($value == $model->searchCollection) ? 'checked' : '';
                     }

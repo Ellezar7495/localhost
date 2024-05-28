@@ -41,7 +41,7 @@ class WorkController extends Controller
                         ],
                     ],
                 ],
-                
+
 
             ]
         );
@@ -52,8 +52,9 @@ class WorkController extends Controller
      *
      * @return string
      */
-    public function actions() {
-        if(Yii::$app->user->isGuest) {
+    public function actions()
+    {
+        if (Yii::$app->user->isGuest) {
             $this->goHome();
         }
     }
@@ -90,6 +91,17 @@ class WorkController extends Controller
                 }
             }
         }
+
+        if ($this->request->isPost) {
+            // VarDumper::dump(WorkCollection::findOne(['id' => Yii::$app->request->post('collection_id')]), 100, true);
+            //         die;
+            if (Yii::$app->request->post('type') == 'delete-collection') {
+                if (WorkCollection::findOne(['id' => Yii::$app->request->post('collection_id')])) {
+                    WorkCollection::findOne(['id' => Yii::$app->request->post('collection_id')])->delete();
+                }
+            }
+        }
+
         $modelCollection = new WorkCollection();
         $modelComment = new Comment();
         if ($this->request->isPost) {
@@ -116,7 +128,7 @@ class WorkController extends Controller
             if ($this->request->post('content') != null) {
 
                 if ($modelComment) {
-                    
+
                     $modelComment->content = Yii::$app->request->post('content');
                     $modelComment->user_id = Yii::$app->user->id;
                     $modelComment->work_id = $id;
@@ -127,20 +139,10 @@ class WorkController extends Controller
 
 
         $dataProviderCategories = new ActiveDataProvider([
-            'query' => Category::find()->select('category.*')->innerJoin('work_category', 'work_category.category_id=category.id AND work_category.work_id=' . $id)
+            'query' => Category::find()->select('category.*')->innerJoin('work_category', 'work_category.category_id=category.id AND work_category.work_id=' . $id),
+
         ]);
-        $dataProviderCategories = new ActiveDataProvider([
-            'query' => Category::find()->select('category.*')->innerJoin('work_category', 'work_category.category_id=category.id AND work_category.work_id=' . $id)
-        ]);
-        // SELECT *
-        // FROM category
-        // LEFT JOIN `work_category` 
-        // ON work_category.category_id=category.id 
-        // LEFT JOIN `work` 
-        // ON work.id=work_category.work_id
-        // WHERE work.user_id=2
-        // VarDumper::dump(Category::find()->select('id')->where(['work_id' => $id]), 100, true);
-        // die;
+
         $dataProviderLike = new ActiveDataProvider([
             'query' => Work::find()
                 ->select('work.*')
@@ -154,14 +156,17 @@ class WorkController extends Controller
         ]);
         // var_dump($dataProviderLike);
         // die;
-        $dataProviderComments = new ActiveDataProvider([
-            'query' => Comment::find()->where(['work_id' => $id])
-        ]);
+
         $dataProviderAuthor = new ActiveDataProvider([
             'query' => Work::find()->where(['user_id' => $model->user_id])->orderBy(new Expression('rand()'))->limit(6)
         ]);
         $dataProviderComments = new ActiveDataProvider([
-            'query' => Comment::find()->where(['work_id' => $model->id])->indexBy('id')
+            'query' => Comment::find()->where(['work_id' => $model->id]),
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC
+                ]
+            ]
         ]);
         return $this->render('view', [
             'model' => $model,

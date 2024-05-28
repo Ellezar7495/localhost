@@ -162,9 +162,12 @@ class CabinetController extends \yii\web\Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Work::find()->select('work.*')->innerJoin('like', 'like.work_id=work.id AND like.user_id=' . Yii::$app->user->id)
         ]);
+        $dataProviderSubscribes = new ActiveDataProvider([
+            'query' => Subscribe::find()->where(['user_id' => Yii::$app->user->id])
+        ]);
 
         return $this->render('liked', [
-
+            'dataProviderSubscribes' => $dataProviderSubscribes,
             'dataProvider' => $dataProvider,
         ]);
     }

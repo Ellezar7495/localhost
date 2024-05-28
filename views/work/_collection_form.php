@@ -1,19 +1,24 @@
 <?
 use app\models\Category;
 use app\models\Collection;
+use app\models\Work;
+use app\models\WorkCategory;
+use app\models\WorkCollection;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
 
+$model;
 ?>
 <? Pjax::begin(['id' => 'addCollection']) ?>
 
 
 <?php $form = ActiveForm::begin(['options' => ['class' => 'd-flex flex-row', 'data-pjax' => true]]); ?>
 <div class='dropdown'>
-    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1"
+        data-bs-toggle="dropdown" aria-expanded="false">
+
     </button>
     <?= $form->field(
         $modelCollection,
@@ -34,14 +39,34 @@ use yii\widgets\Pjax;
                     'tag' => 'li'
                 ],
                 'item' =>
-                    function ($index, $label, $name, $checked, $value) use ($modelCollection) {
-                            
-                            return
-                                '<label class="radio-btn">' .
-                                "<input type='radio' name={$name} value={$value} " .
-                                 '>' .
-                                Html::tag('span', $label) .
-                                '</label>';
+                    function ($index, $label, $name, $checked, $value) use ($model) {
+
+                            if (!WorkCollection::find()->where(['work_id' => Work::findOne(['id' => $model->id])->id, 'collection_id' => $value])->exists()) {
+                                return
+                                    '<label class="radio-btn">' .
+                                    "<input type='radio' name={$name} value={$value} " .
+                                    '>' .
+                                    Html::tag('span', $label) .
+                                    '</label>';
+                            } else {
+                                return Html::a(
+                                    $label . ' x',
+                                    ['', 'id' => $model->id],
+                                    [
+                                        'id' => 'delete-collection',
+                                        'class' => 'like button-text text-decoration-none',
+                                        'data' => [
+                                            'method' => 'post',
+                                            'params' => [
+                                                'collection_id' => WorkCollection::findOne(['work_id' => Work::findOne(['id' => $model->id])->id, 'collection_id' => $value])->id,
+                                                'type' => 'delete-collection',
+                                            ],
+                                        ],
+                                        'data-pjax' => 1,
+                                        'style' => ''
+                                    ]
+                                    );
+                            }
                         }
             ],
         ) ?>
