@@ -2,7 +2,7 @@
 
 use app\models\Like;
 use app\models\User;
-use yii\bootstrap5\ActiveForm;
+use app\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
@@ -92,7 +92,7 @@ $this->title = $model->title;
         }
 
         ]) ?>
-        <? if ($model->user_id == Yii::$app->user->id): ?>
+        <?php if ($model->user_id == Yii::$app->user->id || Yii::$app->user->identity?->id): ?>
             <p>
                 <?= Html::a('Обновить данные', ['update', 'id' => $model->id], ['class' => 'btn button-main-active']) ?>
                 <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
@@ -103,7 +103,7 @@ $this->title = $model->title;
                     ],
                 ]) ?>
             </p>
-        <? endif ?>
+        <?php endif ?>
 
         <div class="work-comments">
             <div class="header-label">Комментарии</div>

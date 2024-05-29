@@ -28,8 +28,10 @@ use yii\bootstrap5\ActiveForm;
                         if ($model->categories_array == null) {
                             $res = '';
                         } else {
-                            $res = in_array($index, $model->categories_array) ? 'checked' : '';
+                            $res =
+                                in_array(Category::findOne(['title' => $value])->title, $model->categories_array) ? 'checked' : '';
                         }
+                        
                         return
                             '<label class="checkbox-btn">' .
                             "<input type='checkbox' name={$name} value={$value} " .

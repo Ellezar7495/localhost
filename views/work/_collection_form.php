@@ -1,4 +1,4 @@
-<?
+<?php
 use app\models\Category;
 use app\models\Collection;
 use app\models\Work;
@@ -11,7 +11,7 @@ use yii\widgets\Pjax;
 
 $model;
 ?>
-<? Pjax::begin(['id' => 'addCollection']) ?>
+<?php Pjax::begin(['id' => 'addCollection']) ?>
 
 
 <?php $form = ActiveForm::begin(['options' => ['class' => 'd-flex flex-row', 'data-pjax' => true]]); ?>
@@ -73,4 +73,4 @@ $model;
 </div>
 <?= Html::submitButton(Html::tag('span', '+', ['class' => 'nav-link']), ['class' => 'button-submain h-25'], ) ?>
 <?php ActiveForm::end(); ?>
-<? Pjax::end() ?>
+<?php Pjax::end() ?>

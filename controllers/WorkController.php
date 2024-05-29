@@ -221,10 +221,14 @@ class WorkController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->categories_array = WorkCategory::find()->select('category_id')->where(['work_id' => $model->id])->column();
+        $model->categories_array = Category::find()->select('title')->where(['id' => WorkCategory::find()->select('category_id')->where(['work_id' => $model->id])->column()])->column();
         if ($this->request->isPost && $model->load($this->request->post())) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $model->scenario = Work::SCENARIO_UPDATE;
-            $model->save();
+            if($model->imageFile != null) {
+                $model->upload();
+            }
+            $model->save(false);
             WorkCategory::deleteAll(['work_id' => $model->id]);
             foreach ($model->categories_array as $key => $category) {
                 $modelCategory = new WorkCategory();

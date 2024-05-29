@@ -55,7 +55,7 @@ class Search extends Model
         $query = new Query();
 
         $author = Work::find()->where(['user_id' => $id]);
-        $work = Work::find()->select('work.*')->leftJoin('work_category', 'work_category.work_id=work.id');
+        $work = Work::find()->select('work.*')->innerJoin('work_category', 'work_category.work_id=work.id');
         $work_user = Work::find()->where(['user_id' => Yii::$app->user->id]);
         $user = User::find();
         $userLiked = Work::find()->select('work.*')->innerJoin('like', 'like.work_id=work.id AND like.user_id=' . Yii::$app->user->id);
@@ -96,11 +96,12 @@ class Search extends Model
             ]);
         }
         if ($type == 'Work') {
-            $work->andFilterWhere([
+            $work->andFilterWhere(['work_category.category_id' => $this->searchCategory ? Category::findOne(['title' => $this->searchCategory])->id : ''])->andFilterWhere([
                 'like',
                 'title',
                 $this->search
-            ])->andFilterWhere(['category_id' => $this->searchCategory])->groupBy('work.id');
+            ]);
+            // var_dump($this->searchCategory);
 
             $dataProvider = new ActiveDataProvider([
                 'query' => $work,

@@ -26,7 +26,7 @@ use Yii;
 class Work extends \yii\db\ActiveRecord
 {
     public $imageFile;
-    public $categories_array;
+    public array $categories_array;
     const SCENARIO_UPDATE = 'scenarioUpdate';
     /**
      * {@inheritdoc}
@@ -47,7 +47,9 @@ class Work extends \yii\db\ActiveRecord
             [['categories_array'], 'required'],
             [['created_at'], 'safe'],
             [['title', 'content', 'img_url'], 'string', 'max' => 255],
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'mimeTypes'=> 'image/*', 'on' => self::SCENARIO_UPDATE,]];
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'mimeTypes'=> 'image/*', 'on' => self::SCENARIO_UPDATE,],
+            [['img_url'], 'required', 'on' => self::SCENARIO_UPDATE]
+        ];
     }
 
     /**
@@ -120,5 +122,11 @@ class Work extends \yii\db\ActiveRecord
     public static function getAuthors($data) {
      
         return User::find()->select('user.*')->leftJoin('work', 'work.user_id=id');
+    }
+    public function upload()
+    {
+            $this->imageFile->saveAs('@app/web/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            $this->img_url = $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            return true;
     }
 }

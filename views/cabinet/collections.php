@@ -25,6 +25,9 @@ use yii\widgets\Pjax;
             ['label' => 'Коллекции', 'url' => ['/cabinet/collections'], 'options' => ['class' => 'link-item']],
             ['label' => 'Профиль', 'url' => ['/cabinet/profile'], 'options' => ['class' => 'link-item']],
             ['label' => 'Понравившиеся', 'url' => ['/cabinet/liked'], 'options' => ['class' => 'link-item']],
+            Yii::$app->user->identity?->role_id == 2 
+            ? ['label' => 'Панель админитсратора', 'url' => ['/admin'], 'options' => ['class' => 'link-item']]
+            : '',
         ]
     ])
         ?>

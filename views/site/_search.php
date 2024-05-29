@@ -48,11 +48,12 @@ $this->registerJs('
                     if ($model->searchCategory == null) {
                         $res = '';
                     } else {
-                        $res = in_array($index, $model->searchCategory) ? 'checked' : '';
+                        $res =
+                            in_array(Category::findOne(['title' => $value])->title, (array) $model->searchCategory) ? 'checked' : '';
                     }
                     return
                         '<label class="checkbox-btn">' .
-                        "<input type='checkbox' name={$name} value={$index} " .
+                        "<input type='checkbox' name={$name} value={$value}" . ' ' .
                         ($res) . '>' .
                         Html::tag('span', $value) .
                         '</label>';

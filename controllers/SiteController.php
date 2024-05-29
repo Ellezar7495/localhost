@@ -52,6 +52,7 @@ class SiteController extends Controller
      */
     public function actions()
     {
+        
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -108,7 +109,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if (Yii::$app->user->identity?->role_id == 2) {
+                $this->redirect('/admin');
+            } else {
             return $this->goBack();
+            }
         }
 
         $model->password = '';

@@ -18,7 +18,8 @@ use yii\bootstrap5\ActiveForm;
     <?= Html::tag('span', 'Мои данные', ['class' => 'header-label']) ?>
     <?= Html::tag('span', 'E-mail: ' . Html::encode($model->email), ['class' => 'text-main'])?>
     <?= Html::tag('span', 'Пол: ' . Html::encode($model->sex), ['class' => 'text-main'])?>
-    <?= $form->field($model, 'login', ['options' => ['class' => 'form-input'],'enableAjaxValidation' => true])->textInput(['placeholder' => 'Логин'])->label('') ?>
+    <?= Html::tag('span', 'Имя: ' . Html::encode($model->login), ['class' => 'text-main'])?>
+
     <?= $form->field($model, 'imageFile', ['options' => ['class' => 'form-input']])->fileInput(['accept' => 'image/*', 'id' => 'imgInp'])->label('') ?>
 
     <div class="form-group">

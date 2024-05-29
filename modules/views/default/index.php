@@ -17,7 +17,7 @@ use yii\widgets\Pjax;
 <h1><?= Html::encode($this->title) ?></h1>
 
 <p>
-    <?= Html::a('Создать коллекцию', ['create'], ['class' => 'btn button-main-active']) ?>
+    <?= Html::a('Создать категорию', ['create'], ['class' => 'btn button-main-active']) ?>
 </p>
 
 <?php Pjax::begin(['id' => 'listview-objects', 'timeout' => false]); ?>

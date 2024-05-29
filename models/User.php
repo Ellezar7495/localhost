@@ -47,7 +47,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['login', 'password', 'password_repeat', 'birthdate', 'email', 'sex'], 'required'],
-
             [['role_id', 'is_blocked'], 'integer'],
             [['login', 'password', 'email', 'sex', 'authKey'], 'string', 'max' => 255],
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
@@ -115,10 +114,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getNotifications()
-    {
-        return $this->hasMany(Notification::class, ['user_id' => 'id']);
-    }
+    
 
     /**
      * Gets query for [[Role]].
