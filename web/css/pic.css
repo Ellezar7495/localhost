@@ -185,7 +185,7 @@ main {
     border: 1px solid #353531;
     border-radius: 5px;
     box-shadow: none !important;
-
+    font-family: 'Akrobat';
 }
 
 .form-check-label {
@@ -327,7 +327,6 @@ main {
 
 .work-avatar {
     max-width: 45px;
-    width: 100%;
     max-height: 45px;
     height: 100%;
     border-radius: 5px;
@@ -443,6 +442,7 @@ input[type='checkbox']:checked+.checkbox-label {
     border-radius: 3px;
     color: #FFF8F4;
     transition: background 0.2s ease;
+    font-family: 'Akrobat';
 }
 
 .checkbox-btn input[type=checkbox]:checked+span {
@@ -503,6 +503,7 @@ input[type='checkbox']:checked+.checkbox-label {
     border-radius: 3px;
     color: #FFF8F4;
     transition: background 0.2s ease;
+    font-family: "Akrobat";
 }
 
 .radio-btn input[type=radio]:checked+span {
@@ -596,6 +597,7 @@ input[type='checkbox']:checked+.checkbox-label {
 .link-item a {
     padding: 7px 10px;
     color: #FFF8F4;
+    font-family: 'Akrobat';
 }
 
 .link-item a.active {

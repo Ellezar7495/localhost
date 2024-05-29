@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+
 use Yii;
 use app\models\Collection;
 use app\models\Search;
@@ -37,9 +38,9 @@ class CollectionController extends Controller
      *
      * @return string
      */
-    public function actions() 
+    public function actions()
     {
-        if(Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             Yii::$app->session->setFLash('danger', 'Вы не авторизованы');
             $this->goHome();
         }
@@ -122,7 +123,7 @@ class CollectionController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if($model){
+        if ($model) {
             $model->delete();
         }
         return $this->redirect(['/cabinet/collections']);
@@ -139,8 +140,9 @@ class CollectionController extends Controller
     {
         if (($model = Collection::findOne(['id' => $id])) !== null) {
             return $model;
+        } else {
+            $this->goHome();
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        ;
     }
 }

@@ -266,8 +266,8 @@ class WorkController extends Controller
     {
         if (($model = Work::findOne(['id' => $id])) !== null) {
             return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        } else {
+           $this->goHome();
+        };
     }
 }

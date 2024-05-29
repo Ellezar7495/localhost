@@ -16,11 +16,10 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 
 class CabinetController extends \yii\web\Controller
-
 {
     public function actions()
     {
-        if(Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
             $this->goHome();
         }
     }
@@ -103,9 +102,10 @@ class CabinetController extends \yii\web\Controller
     {
         if (($model = Work::findOne(['id' => $id])) !== null) {
             return $model;
+        } else {
+            $this->goHome();
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        ;
     }
     public function actionAuthor($id)
     {
@@ -129,7 +129,7 @@ class CabinetController extends \yii\web\Controller
         return $this->render('author', [
             'dataProvider' => $dataProvider,
             'model' => $model,
-            
+
         ]);
 
     }

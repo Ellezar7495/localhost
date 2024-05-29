@@ -162,8 +162,9 @@ class SiteController extends Controller
     {
         if (($model = Work::findOne(['id' => $id])) !== null) {
             return $model;
+        } else {
+            $this->goHome();
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        ;
     }
 }
