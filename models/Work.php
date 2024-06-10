@@ -17,7 +17,6 @@ use Yii;
  
  *
  * @property Comment[] $comments
- * @property LikeWork[] $likeWorks
  * @property WorkCategory[] $workCategories
  * @property WorkCollection[] $workCollections
  * @property string|null $categories_array
@@ -25,8 +24,8 @@ use Yii;
  */
 class Work extends \yii\db\ActiveRecord
 {
-    public $imageFile;
-    public array $categories_array;
+    public object|null $imageFile;
+    public array|null  $categories_array;
     const SCENARIO_UPDATE = 'scenarioUpdate';
     /**
      * {@inheritdoc}

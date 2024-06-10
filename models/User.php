@@ -55,6 +55,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['email'], 'unique'],
             [['password_repeat'], 'compare', 'compareAttribute' => 'password'],
             [['birthdate'], 'date', 'format' => 'd.m.Y'],
+            [['login'], 'match', 'pattern' => '/^[A-Za-z0-9]{6,}$/u'],
             [['birthdate'], 'compare', 'compareValue' => date('Y-m-d'), 'operator' => '<', 'type' => 'date'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => self::SCENARIO_CREATE_PROFILE_IMAGE],
         ];
@@ -114,7 +115,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      *
      * @return \yii\db\ActiveQuery
      */
-    
+
 
     /**
      * Gets query for [[Role]].
@@ -168,7 +169,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             $this->role_id = Role::findOne(['title' => 'user'])->id;
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
             $this->is_blocked = 0;
-
         }
         return true;
     }

@@ -58,16 +58,7 @@ class WorkController extends Controller
             $this->goHome();
         }
     }
-    public function actionIndex()
-    {
-        $searchModel = new WorkSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Work model.
@@ -120,7 +111,6 @@ class WorkController extends Controller
                         $modelCollection->work_id = $id;
                         $modelCollection->save(false);
                     }
-
                 }
             }
         }
@@ -225,7 +215,7 @@ class WorkController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $model->scenario = Work::SCENARIO_UPDATE;
-            if($model->imageFile != null) {
+            if ($model->imageFile != null) {
                 $model->upload();
             }
             $model->save(false);
@@ -271,7 +261,7 @@ class WorkController extends Controller
         if (($model = Work::findOne(['id' => $id])) !== null) {
             return $model;
         } else {
-           $this->goHome();
+            $this->goHome();
         };
     }
 }
