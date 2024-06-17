@@ -85,7 +85,6 @@ class CabinetController extends \yii\web\Controller
                 $model->save(false);
             }
             return $this->refresh();
-
         }
         return $this->render('profile', [
             'model' => $model,
@@ -104,8 +103,7 @@ class CabinetController extends \yii\web\Controller
             return $model;
         } else {
             $this->goHome();
-        }
-        ;
+        };
     }
     public function actionAuthor($id)
     {
@@ -131,7 +129,6 @@ class CabinetController extends \yii\web\Controller
             'model' => $model,
 
         ]);
-
     }
     public function actionSubscribe($id, $url)
     {
@@ -141,12 +138,10 @@ class CabinetController extends \yii\web\Controller
         $model->save(false);
 
         return $this->redirect($url);
-
     }
     public function actionLiked()
     {
         if ($this->request->isPost) {
-
             if (Yii::$app->request->post('type') == 'create') {
                 $model = new Like();
                 $model->user_id = Yii::$app->user->id;

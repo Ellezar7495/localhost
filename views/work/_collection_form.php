@@ -44,9 +44,10 @@ $model;
                             if (!WorkCollection::find()->where(['work_id' => Work::findOne(['id' => $model->id])->id, 'collection_id' => $value])->exists()) {
                                 return
                                     '<label class="radio-btn">' .
-                                    "<input type='radio' name={$name} value={$value} " .
+                                    "<input type='radio' name={$name} value={$value} checked" .
                                     '>' .
                                     Html::tag('span', $label) .
+                                    Html::submitButton(Html::tag('span', '+', ['class' => 'nav-link p-0']), ['class' => 'button-text text-decoration-none'], ) .
                                     '</label>';
                             } else {
                                 return Html::a(
@@ -71,6 +72,6 @@ $model;
             ],
         ) ?>
 </div>
-<?= Html::submitButton(Html::tag('span', '+', ['class' => 'nav-link']), ['class' => 'button-submain h-25'], ) ?>
+
 <?php ActiveForm::end(); ?>
 <?php Pjax::end() ?>

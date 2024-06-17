@@ -27,7 +27,7 @@ use yii\widgets\Pjax;
     'dataProvider' => $dataProvider,
     'itemOptions' => [],
     'options' => [
-        'class' => 'form-list'
+        'class' => 'form-list mt-2'
     ],
     'summary' => '',
     'itemView' => function ($model, $key, $index, $widget) {

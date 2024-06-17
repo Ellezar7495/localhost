@@ -153,7 +153,7 @@ class SiteController extends Controller
             return ActiveForm::validate($model);
         }
         if (Yii::$app->request->isPost) {
-            if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::$app->user->login($model);
                 $this->goHome();
             }
