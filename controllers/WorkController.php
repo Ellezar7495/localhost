@@ -84,27 +84,24 @@ class WorkController extends Controller
         }
 
         if ($this->request->isPost) {
-            // VarDumper::dump(WorkCollection::findOne(['id' => Yii::$app->request->post('collection_id')]), 100, true);
-            //         die;
+            VarDumper::dump($this->request->post(), 100, true);
             if (Yii::$app->request->post('type') == 'delete-collection') {
                 if (WorkCollection::findOne(['id' => Yii::$app->request->post('collection_id')])) {
                     WorkCollection::findOne(['id' => Yii::$app->request->post('collection_id')])->delete();
                 }
             }
         }
-
         $modelCollection = new WorkCollection();
         $modelComment = new Comment();
         if ($this->request->isPost) {
+            // VarDumper::dump(Yii::$app->request->post, 100, true);
+            // die;
 
-            if ($this->request->post('WorkCollection')) {
+            if ($this->request->post('WorkCollection') && !Yii::$app->request->post('type') == 'delete-collection') {
                 $modelCollection->load($this->request->post());
 
-                // VarDumper::dump($modelCollection->collections_array, 100, true);
-                //     die;
                 if ($modelCollection->collections_array) {
-                    // VarDumper::dump(!WorkCollection::find()->where(['collection_id' => $modelCollection->collections_array, 'work_id' => $id])->exists(), 100, true);
-                    // die;
+
                     if (!WorkCollection::find()->where(['collection_id' => $modelCollection->collections_array, 'work_id' => $id])->exists()) {
 
                         $modelCollection->collection_id = $modelCollection->collections_array;
